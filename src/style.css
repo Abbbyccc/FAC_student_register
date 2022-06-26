@@ -1,3 +1,8 @@
 .form-hidden {
     display: none;
 }
+
+.registeredBtn {
+    background-color: aquamarine;
+    border-radius: 2rem;
+}
