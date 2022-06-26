@@ -53,8 +53,3 @@ loginPage.addEventListener('click', (e) => {
     loginForm.classList.remove('form-hidden')
     createAccount.classList.add('form-hidden')
 })
-
-
-
-
-
