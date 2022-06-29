@@ -14,7 +14,7 @@
     <div class="form-container">
         <form class="'form" id="login" action="post">
             <h1 class="form-title">Login</h1>
-            <div class="form-message form-message-error"></div>
+            <div class="error-msg-login form-message "></div>
             <div class="form-input-group">
                 <input id="signinusername" type="text" class="from-input" placeholder="Username or Email">
                 <div class="form-input-error-message"></div>
@@ -24,19 +24,20 @@
                 <div class="form-input-error-message"></div>
             </div>
             <button class="form-button" type="submit" onclick="check(event)">login</button>
+            <p>Test Account: Millie / 234234</p>
             <p class="form-text">
                 <a href="./" id="createAccountLink" class="form-link">Create accounts</a>
             </p>
         </form>
         <form class="form form-hidden" id="createAccount" action="post">
             <h1 class="form-title">Login</h1>
-            <div class="form-message">Incorrect info</div>
+            <div class="error-msg-singup form-message"></div>
             <div class="form-input-group">
                 <input id="createusername" type="text" class="form-input" placeholder="Username">
                 <div class="form-input-error-message"></div>
             </div>
             <div class="form-input-group">
-                <input type="email" class="from-input" placeholder="Email">
+                <input type="email" id="register-email" class="from-input" placeholder="Email">
                 <div class="form-input-error-message"></div>
             </div>
             <div class="form-input-group">
@@ -44,7 +45,7 @@
                 <div class="form-input-error-message"></div>
             </div>
             <div class="form-input-group">
-                <input type="password" class="from-input" placeholder="Confirm Password">
+                <input id="confirmPW" type="password" class="from-input" placeholder="Confirm Password">
                 <div class="form-input-error-message"></div>
             </div>
             <button class="form-button" type="submit" onclick="signup(event)">Creat Account</button>

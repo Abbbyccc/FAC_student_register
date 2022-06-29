@@ -1,6 +1,5 @@
 const registerForm = document.querySelector('#registerForm')
 
-register()
 function signup(event) {
     event.preventDefault()
     const fname = document.querySelector('#fName').value
@@ -16,44 +15,73 @@ function signup(event) {
             localStorage.setItem('studentData', JSON.stringify(studentData));
             registerForm.reset();
             alert("Student added.");
-            makeList(fname, lname, dob)
-
+            const studentRow = createStudentLine(fname, lname, dob)
+            addToTable(studentRow)
         } else {
             alert("Student already exists, please check again");
-
         }
     }
 }
 
-function makeList(fname, lname, dob) {
-    let list = [fname, lname, dob]
-    let table = document.querySelector('.studentTable')
-    let tableRow = document.createElement("tr")
+function createStudentLine(fname, lname, dob) {
+    const tableRow = document.createElement("tr")
     tableRow.setAttribute('class', 'studentData')
-    let registerButton = document.createElement("button")
-    registerButton.setAttribute('class', 'register-btn')
+    const registerButton = document.createElement("button")
+    registerButton.setAttribute('class', 'register-btn') // TODO add an ID
     registerButton.innerHTML = 'Register'
+
+    const timeTd = document.createElement("td")
+    const d = new Date();
+    registerButton.addEventListener("click", () => {
+        const textData = timeTd.textContent
+        if (textData == "" || textData == null) {
+
+            timeTd.textContent = d.toLocaleString()
+            registerButton.classList.add('registeredBtn')
+        } else {
+            timeTd.textContent = ""
+            registerButton.classList.remove('registeredBtn')
+            const LogOut_time = Date()
+        }
+    })
+
+    const list = [fname, lname, dob]
     list.forEach((el) => {
-        let tableData = document.createElement("td")
+        const tableData = document.createElement("td")
         tableData.textContent = el
         tableRow.appendChild(tableData)
     })
     tableRow.appendChild(registerButton)
-    table.appendChild(tableRow)
-    register()
+    tableRow.appendChild(timeTd)
+
+    return tableRow
+}
+
+function addToTable(studentTableRow) {
+    let table = document.querySelector('.studentTable')
+    table.appendChild(studentTableRow)
 }
 
 
-function register() {
-    let registerBtns = document.getElementsByClassName('register-btn')
-    for (let i = 0; i < registerBtns.length; i++) {
-        registerBtns[i].addEventListener("click", () => {
-            registerBtns[i].innerHTML = 'Registered'
-            registerBtns[i].classList.add('registeredBtn')
-            let tableRow = document.createElement("td")
-            let studentData = document.getElementsByClassName('studentData')
-            tableRow.innerHTML = Date()
-            studentData[i].appendChild(tableRow)
-        }, { once: true })
-    }
+const initatialData = [{
+    name: "Millie",
+    lastName: "Spencer",
+    birthday: "29/11/2021",
+}, {
+    name: "Maeve",
+    lastName: "Madden",
+    birthday: "25/08/2020",
+}, {
+    name: "Joe",
+    lastName: "Harris",
+    birthday: "22/08/2020",
+}]
+
+function initialize() {
+    initatialData.forEach(id => {
+        const studentRow = createStudentLine(id.name, id.lastName, id.birthday)
+        addToTable(studentRow)
+    })
 }
+
+initialize()
