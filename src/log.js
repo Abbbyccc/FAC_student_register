@@ -1,5 +1,31 @@
 const registerForm = document.querySelector('#registerForm')
 
+const initatialData = [{
+    name: "Millie",
+    lastName: "Spencer",
+    birthday: "29/11/2021",
+}, {
+    name: "Maeve",
+    lastName: "Madden",
+    birthday: "25/08/2020",
+}, {
+    name: "Joe",
+    lastName: "Harris",
+    birthday: "22/08/2020",
+}, {
+    name: "Alistair",
+    lastName: "Renton",
+    birthday: "23/07/2022",
+}]
+
+function initialize() {
+    initatialData.forEach(id => {
+        const studentRow = createStudentLine(id.name, id.lastName, id.birthday)
+        addToTable(studentRow)
+    })
+}
+
+initialize()
 function signup(event) {
     event.preventDefault()
     const fname = document.querySelector('#fName').value
@@ -34,20 +60,21 @@ function createStudentLine(fname, lname, dob) {
     const time_td = document.createElement("td")
     let flag = true
     registerButton.addEventListener("click", () => {
-
         if (flag) {
-            const d = new Date();
-            time_td.textContent = d.toLocaleString()
+            const d = new Date().toLocaleString();
+            time_td.textContent = d
             registerButton.classList.add('registeredBtn')
             registerButton.innerHTML = 'Registered'
             logTime_title.innerHTML = 'Log in Time'
+            login(fname, lname, d)
             flag = false
         } else {
-            const d = new Date();
-            time_td.textContent = d.toLocaleString()
+            const d = new Date().toLocaleString();;
+            time_td.textContent = d
             registerButton.innerHTML = 'Register'
             registerButton.classList.remove('registeredBtn')
             logTime_title.innerHTML = 'Log out Time'
+            logout(fname, lname, d)
             flag = true
         }
     })
@@ -71,25 +98,34 @@ function addToTable(studentTableRow) {
 }
 
 
-const initatialData = [{
-    name: "Millie",
-    lastName: "Spencer",
-    birthday: "29/11/2021",
-}, {
-    name: "Maeve",
-    lastName: "Madden",
-    birthday: "25/08/2020",
-}, {
-    name: "Joe",
-    lastName: "Harris",
-    birthday: "22/08/2020",
-}]
+function login(fname, lname, login) {
+    let logData = JSON.parse(localStorage.getItem('logData')) || [];
+    let existStudent = JSON.parse(localStorage.getItem('studentData')).some(data =>
+        data.fname == fname && data.lname == lname) ||
+        initatialData.some(data => data.name == fname && data.lastName == lname)
 
-function initialize() {
-    initatialData.forEach(id => {
-        const studentRow = createStudentLine(id.name, id.lastName, id.birthday)
-        addToTable(studentRow)
-    })
+    if (existStudent) {
+        logData.push({ fname, lname, login })
+        localStorage.setItem('logData', JSON.stringify(logData));
+    } else {
+        return
+    }
 }
 
-initialize()
+function logout(fname, lname, logout) {
+    let logData = JSON.parse(localStorage.getItem('logData')) || [];
+    let existStudent = JSON.parse(localStorage.getItem('studentData')).some(data =>
+        data.fname == fname && data.lname == lname) ||
+        initatialData.some(data => data.name == fname && data.lastName == lname)
+
+    if (existStudent) {
+        logData.push({ fname, lname, logout })
+        localStorage.setItem('logData', JSON.stringify(logData));
+    } else {
+        return
+    }
+}
+
+
+
+registerTime('Joe', 'Harris', '123')
