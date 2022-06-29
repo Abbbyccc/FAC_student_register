@@ -29,19 +29,26 @@ function createStudentLine(fname, lname, dob) {
     const registerButton = document.createElement("button")
     registerButton.setAttribute('class', 'register-btn') // TODO add an ID
     registerButton.innerHTML = 'Register'
+    const logTime_title = document.querySelector('#log_time')
 
-    const timeTd = document.createElement("td")
-    const d = new Date();
+    const time_td = document.createElement("td")
+    let flag = true
     registerButton.addEventListener("click", () => {
-        const textData = timeTd.textContent
-        if (textData == "" || textData == null) {
 
-            timeTd.textContent = d.toLocaleString()
+        if (flag) {
+            const d = new Date();
+            time_td.textContent = d.toLocaleString()
             registerButton.classList.add('registeredBtn')
+            registerButton.innerHTML = 'Registered'
+            logTime_title.innerHTML = 'Log in Time'
+            flag = false
         } else {
-            timeTd.textContent = ""
+            const d = new Date();
+            time_td.textContent = d.toLocaleString()
+            registerButton.innerHTML = 'Register'
             registerButton.classList.remove('registeredBtn')
-            const LogOut_time = Date()
+            logTime_title.innerHTML = 'Log out Time'
+            flag = true
         }
     })
 
@@ -52,7 +59,8 @@ function createStudentLine(fname, lname, dob) {
         tableRow.appendChild(tableData)
     })
     tableRow.appendChild(registerButton)
-    tableRow.appendChild(timeTd)
+    tableRow.appendChild(time_td)
+
 
     return tableRow
 }
