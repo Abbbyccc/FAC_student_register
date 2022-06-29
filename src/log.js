@@ -21,7 +21,7 @@ const initatialData = [{
 function initialize() {
     initatialData.forEach(id => {
         const studentRow = createStudentLine(id.name, id.lastName, id.birthday)
-        addToTable(studentRow)
+        addToStudentTable(studentRow)
     })
 }
 
@@ -31,7 +31,7 @@ function signup(event) {
     const fname = document.querySelector('#fName').value
     const lname = document.querySelector('#lName').value
     const dob = document.querySelector('#DOB').value
-    if (!/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(dob)) {
+    if (!/^([0-2][0-9]|(3)[0-1])(\-)(((0)[0-9])|((1)[0-2]))(\-)\d{4}$/.test(dob)) {
         alert('please enter date of birth in dd/mm/yyyy')
     } else {
         let studentData = JSON.parse(localStorage.getItem('studentData')) || [];
@@ -42,7 +42,7 @@ function signup(event) {
             registerForm.reset();
             alert("Student added.");
             const studentRow = createStudentLine(fname, lname, dob)
-            addToTable(studentRow)
+            addToStudentTable(studentRow, '.studentTable')
         } else {
             alert("Student already exists, please check again");
         }
@@ -92,7 +92,7 @@ function createStudentLine(fname, lname, dob) {
     return tableRow
 }
 
-function addToTable(studentTableRow) {
+function addToStudentTable(studentTableRow) {
     let table = document.querySelector('.studentTable')
     table.appendChild(studentTableRow)
 }
@@ -127,5 +127,45 @@ function logout(fname, lname, logout) {
 }
 
 
+function button(event) {
+    event.preventDefault()
+    const x = document.getElementById("date");
+    const currentVal = x.value;
+    const formatcurVal = LogTimeFormat(currentVal)
+    const logtimeData = [];
+    JSON.parse(localStorage.getItem('logData')).forEach((x) => {
+        const logTime = x['login'].slice(0, 10)
+        console.log(logTime)
+        console.log(formatcurVal)
+        if (logTime == formatcurVal) {
+            const studentLogRow = logStudent(x.fname, x.lname)
+            addToTimeTable(studentLogRow)
+        }
+    })
+    
+}
 
-registerTime('Joe', 'Harris', '123')
+function logStudent(fname, lname, dob) {
+    const tableRow = document.createElement("tr")
+    tableRow.setAttribute('class', 'logData')
+    const list = [fname, lname, dob]
+    list.forEach((el) => {
+        const tableData = document.createElement("td")
+        tableData.textContent = el
+        tableRow.appendChild(tableData)
+    })
+
+    return tableRow
+}
+
+function addToTimeTable(addToTimeTable) {
+    let table = document.querySelector('.timeLog')
+    table.appendChild(addToTimeTable)
+}
+
+function LogTimeFormat(time) {
+    let result = ''
+    splitLogTime = time.split('-')
+    result = splitLogTime[2] + '/' + splitLogTime[1] + '/' + splitLogTime[0]
+    return result
+}
