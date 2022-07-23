@@ -1,1 +1,1 @@
-## tiney-register
+## tiney-register-takehome-challenge
